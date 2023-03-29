@@ -1,8 +1,8 @@
 server:
-  port: 8383
+  port: 8484
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/micorservices
+    url: jdbc:postgresql://localhost:5432/micorservices_ratings
     username: postgres
     password: root
 
