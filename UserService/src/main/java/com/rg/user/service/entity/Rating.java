@@ -15,4 +15,5 @@ public class Rating {
     private String hotelId;
     private String remark;
     private Integer rating;
+    private Hotel hotel;
 }
