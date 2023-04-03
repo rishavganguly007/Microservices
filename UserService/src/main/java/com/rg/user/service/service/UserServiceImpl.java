@@ -4,6 +4,7 @@ import com.rg.user.service.entity.Hotel;
 import com.rg.user.service.entity.Rating;
 import com.rg.user.service.entity.User;
 import com.rg.user.service.exception.ResourceNotFoundException;
+import com.rg.user.service.externals.IHotelService;
 import com.rg.user.service.repository.UserRepository;
 import org.hibernate.loader.entity.plan.EntityLoader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private IHotelService hotelService;
     @Override
     public User saveUser(User user) {
         String randomID = UUID.randomUUID().toString();
@@ -46,9 +49,10 @@ public class UserServiceImpl implements UserService{
 
         List<Rating> ratingList = Arrays.stream(ratingOfUser).map(rating -> {
             //api call to hotel service to get hotel
-            String hotelurl = "http://HOTEL-SERVICE/hotel/" + rating.getHotelId();
-            ResponseEntity<Hotel> forEntity = restTemplate.getForEntity(hotelurl,Hotel.class);
-            rating.setHotel(forEntity.getBody());
+//            String hotelurl = "http://HOTEL-SERVICE/hotel/" + rating.getHotelId();
+//            ResponseEntity<Hotel> forEntity = restTemplate.getForEntity(hotelurl,Hotel.class);
+            Hotel hotel = hotelService.getHotel(rating.getHotelId());
+            rating.setHotel(hotel);
             return rating;
         }).collect(Collectors.toList());
         user.setRatings(ratingList);
