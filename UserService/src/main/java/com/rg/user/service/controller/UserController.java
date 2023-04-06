@@ -3,6 +3,7 @@ package com.rg.user.service.controller;
 import com.rg.user.service.entity.User;
 import com.rg.user.service.service.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @CircuitBreaker(name = "ratingHotelBreaker", fallbackMethod = "ratingHotelFallback")
+ //   @CircuitBreaker(name = "ratingHotelBreaker", fallbackMethod = "ratingHotelFallback")
+    @RateLimiter(name = "userRateLimiter", fallbackMethod = "ratingHotelFallback" )
     public ResponseEntity<User> getUser(@PathVariable String userId){
         User user = userService.getUser(userId);
         return  ResponseEntity.ok(user);
