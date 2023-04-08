@@ -17,7 +17,22 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8181
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-66961525.okta.com/oauth2/default
+      client:
+        registration:
+          my-internal-client:
+            provider: okta
+            authorizationGrantType: client_credentials
+            scope: internal
+            client-id: 0oa915y9g0DTc89Rw5d7
+            client-secret: 5dX8-xHErm5y4wEJmZuOkmPwFxziwcfi7_aQXnpR
+        provider:
+          okta:
+            issuerUri: https://dev-66961525.okta.com/oauth2/default
 # No Need as we have created a config-server on github
 #eureka:
 #  instance:
@@ -61,3 +76,9 @@ resilience4j:
         limit-refresh-period: 4s
         limit-for-period: 2
         timeout-duration: 0s
+
+okta:
+  oauth2:
+    issuer: https://dev-66961525.okta.com/oauth2/default
+    audience: api://default
+
